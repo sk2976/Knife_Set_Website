@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll('table tr').forEach(row => {
         row.addEventListener('dblclick', function(e) {
             e.stopPropagation(); 
-            removeCurrentDropdown(); // Remove any existing dropdown and highlight
+            removeCurrentDropdown(); // Remove any existing dropdown
             
             var knifeID = this.cells[0].textContent;
 
