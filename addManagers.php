@@ -1,9 +1,6 @@
 <?php
 /* DO NOT Execute
 
-
-
-
 require_once('databaseConnection.php'); // 
 
 // Dummy account details

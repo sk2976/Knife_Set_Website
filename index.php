@@ -1,5 +1,5 @@
 <?php
-session_start(); 
+//Stephen Kankam Phase 4 April 19, 2024 IT202 sk2976@njit.edu
 ?>
 
 <html lang="en">
@@ -17,19 +17,7 @@ session_start();
     <div class="heading">
         <h1>Kankam's Knives</h1>
     </div>
-    <div class="navbar">
-        <a href="index.php">Home</a>
-        <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in']): ?>
-            <!-- These links are only shown to logged-in users -->
-            <a href="shipping.php">Shipping</a>
-            <a href="productPage.php">Product Page</a>
-            <a href="create.php">Add Knives</a>
-            <a href="logout.php">Log Out</a>
-        <?php else: ?>
-            <!-- The login link is shown if the user is not logged in -->
-            <a href="login.php">Log In</a>
-        <?php endif; ?>
-    </div>
+    <?php include("navbar.php")?>
     </header>
     <div class="content">
         <h1 style="color:white">Our Knives</h1>

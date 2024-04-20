@@ -1,79 +1,92 @@
 <?php 
 session_start();
 if (!isset($login_message)) {
-$login_message = 'You must login to view this page.';
+    $login_message = 'You must login to view this page.';
+}
+
+if (isset($_POST['logout'])) {
+    
+    session_destroy();
+    header("Location: index.php");
+    exit;
 }
 ?>
 <!DOCTYPE html>
 <html>
- <head>
-   <title>Knife Shop Log In</title>
- </head>
- <body>
- <div class="navbar">
-        <a href="index.php">Home</a>
-        <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in']): ?>
-            <!-- These links are only shown to logged-in users -->
-            <a href="shipping.php">Shipping</a>
-            <a href="productPage.php">Product Page</a>
-            <a href="create.php">Add Knives</a>
-            <a href="logout.php">Log Out</a>
-        <?php else: ?>
-            <!-- The login link is shown if the user is not logged in -->
-            <a href="login.php">Log In</a>
-        <?php endif; ?>
-    </div>
-   <h1>Knife Shop Log In</h1>
- <main>
-   <h1>Login</h1>
-   <form action="authenticate.php" method="post">
-     <label>Email:</label>
-     <input type="text" name="email" value="">
-     <br>
-     <label>Password:</label>
-     <input type="password" name="password" value="">
-     <br>
-     <input type="submit" value="Login">
-   </form>
-   <p><?php echo $login_message; ?></p>
- </main>
- </body>
+<head>
+    <title>Log In</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(35,35,35);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        main {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="password"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"], input[type="button"] {
+            background-color: #5c67f2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover, input[type="button"]:hover {
+            background-color: #4a54e1;
+        }
+        p {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Login</h1>
+        <form action="authenticate.php" method="post">
+            <label>Email:</label>
+            <input type="text" name="email" value="">
+            <br>
+            <label>Password:</label>
+            <input type="password" name="password" value="">
+            <br>
+            <input type="submit" value="Login">
+        </form>
+        <form method="post">
+            <input type="submit" name="logout" value="Back" style="background-color: indianred;">
+        </form>
+        <p><?php echo $login_message; ?></p>
+    </main>
+    <?php if (!empty($_SESSION['logout_message'])): ?>
+        <p><?= htmlspecialchars($_SESSION['logout_message']) ?></p>
+        <?php unset($_SESSION['logout_message']); ?>
+    <?php endif; ?>
+</body>
 </html>
-<style>
-    body{
-        background-color: rgb(35,35,35);
-        color:white;
-        margin:0;
-        font-family: Arial, Helvetica, sans-serif;
-    }
-    h1{
-        font-size: 3em;
-        margin-top: 60px;
-    }
-    .navbar {
-    overflow: hidden;
-    background-color: black;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    }
-
-    .navbar a {
-    float: left;
-    display: block;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    }
-
-    .navbar a:hover {
-    background-color: #ddd;
-    color: black;
-    }
-</style>
-<?php if (!empty($_SESSION['logout_message'])): ?>
-    <p><?= htmlspecialchars($_SESSION['logout_message']) ?></p>
-    <?php unset($_SESSION['logout_message']); ?>
-<?php endif; ?>

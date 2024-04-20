@@ -16,34 +16,34 @@
     include('login.php');
   }
   function is_valid_admin_login($email, $password) {
-    global $conn; // Use the mysqli connection established globally
+    global $conn; 
 
-    // Prepare the SQL statement to prevent SQL injection
+
     $stmt = $conn->prepare("SELECT password FROM knifeshopmanagers WHERE emailAddress = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
 
-    // Store the result so we can check the row count
+ 
     $result = $stmt->get_result();
 
     if ($result->num_rows === 1) {
-        // Fetch the row
+   
         $row = $result->fetch_assoc();
 
-        // Verify the password
+
         if (password_verify($password, $row['password'])) {
-            // If the password is correct
+     
             return true;
         } else {
-            // If the password is incorrect
+         
             return false;
         }
     } else {
-        // If no user is found with that email address
+        
         return false;
     }
 
-    // Close the statement
+ 
     $stmt->close();
 }
 ?>

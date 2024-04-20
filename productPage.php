@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 require_once('databaseConnection.php');
 
 $sql = "SELECT * FROM knives";
@@ -12,19 +12,7 @@ $result = $conn->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <div class="navbar">
-        <a href="index.php">Home</a>
-        <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in']): ?>
-            <!-- These links are only shown to logged-in users -->
-            <a href="shipping.php">Shipping</a>
-            <a href="productPage.php">Product Page</a>
-            <a href="create.php">Add Knives</a>
-            <a href="logout.php">Log Out</a>
-        <?php else: ?>
-            <!-- The login link is shown if the user is not logged in -->
-            <a href="login.php">Log In</a>
-        <?php endif; ?>
-    </div>
+    <?php include("navbar.php")?>
     <title>Knife List</title>
     <style>
         body{
@@ -107,7 +95,7 @@ if ($result->num_rows > 0) {
         echo "<tr>";
         echo "<td>" . $row["knifeID"] . "</td>";
         echo "<td>" . $row["knifeCategoryID"] . "</td>";
-        echo "<td>" . $row["knifeCode"] . "</td>";
+        echo "<td><a href='productDetails.php?knife_id=" . $row["knifeID"] . "'>" . $row["knifeCode"] . "</a></td>";
         echo "<td>" . $row["knifeName"] . "</td>";
         echo "<td>" . $row["knifeDescription"] . "</td>";
         echo "<td>" . $row["price"] . "</td>";
@@ -153,7 +141,11 @@ document.addEventListener("DOMContentLoaded", function() {
             var dropdown = document.createElement('div');
             var deleteButton = document.createElement('button');
             deleteButton.textContent = 'Delete Product';
-            deleteButton.onclick = function(event) { deleteProduct(knifeID, event); };
+            deleteButton.onclick = deleteButton.onclick = function(event) {
+                if (confirm("Are you sure you want to delete this product?")) {
+        deleteProduct(knifeID, event);
+    }
+};
             dropdown.appendChild(deleteButton);
 
             dropdown.style.position = 'absolute';
